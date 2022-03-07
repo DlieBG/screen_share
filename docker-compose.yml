@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  frontend:
+    build: .
+    container_name: screen_share
+    restart: unless-stopped
+    ports:
+      - 84:80
