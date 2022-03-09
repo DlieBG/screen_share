@@ -5,17 +5,27 @@
 
 	let stream = null;
 
-	navigator.mediaDevices.getDisplayMedia().then((s) => {
-		stream = s;
-	});
+	function startStream() {
+		try {
+			navigator.mediaDevices.getDisplayMedia()
+			.then((s) => {
+				stream = s;
+			})
+			.catch((e) => {
+				alert(e)
+			});
+		} catch(e) {
+			alert(e)
+		}
+		
 
-	peer.on('open', () => {
-		peer.on('connection', (view) => {
-			view.close();
-			peer.call('bschwering-screenshare-view', stream)
+		peer.on('open', () => {
+			peer.on('connection', (view) => {
+				view.close();
+				peer.call('bschwering-screenshare-view', stream)
+			});
 		});
-	});
-
+	}
 </script>
 
 <main>
@@ -31,6 +41,7 @@
 	{:else}
 	<p>
 		Please select your screen to share.
+		<button on:click={startStream}>Select Screen</button>
 	</p>
 	{/if}
 	
@@ -42,5 +53,9 @@
 		text-transform: uppercase;
 		font-size: 3em;
 		font-weight: 200;
+	}
+
+	button {
+
 	}
 </style>
